@@ -2,6 +2,7 @@ import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import signup from './components/signup';
+import login from './components/login';
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
           </nav> <br />    
           <Switch>    
             {/* <Route exact path='/Login' component={Login} />     */}
-            <Route path='/Signup' component={signup} />    
+            <Route path='/Signup' component={signup} />  
+            <Route path='/Login' component={login} />    
           </Switch>    
         </div>    
       </Router>   

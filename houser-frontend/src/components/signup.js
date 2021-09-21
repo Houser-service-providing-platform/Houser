@@ -1,4 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import axiosInstance from '../axiosApi';
+// import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+
+
 
 export class signup extends Component {
 
@@ -41,30 +46,59 @@ export class signup extends Component {
         this.setState({ Name: event.target.value })  
     }  
 
-    register(event) {  
-  
-        fetch('http://localhost:8000/auth/users/', {  
-          method: 'post',  
-          headers: {  
-            'Accept': 'application/json',  
-            'Content-Type': 'application/json'  
-          },  
-          body: JSON.stringify({        
+    
+
+    async register(event) {   
+
+        event.preventDefault();
+        // try {
+        //     const response = await axiosInstance.post('/users/', {
+        //         name: this.state.Name,  
+        //         password: this.state.Password,  
+        //         email: this.state.Email,  
+        //         mob_number: this.state.Mob_no,  
+        //         re_password: this.state.Re_password
+        //     });
+        //     return response;
+        // } catch (error) {
+        //     console.log(error.stack);
+        //     this.setState({
+        //         errors:error.response.data
+        //     });
+        // }
+        // axiosInstance
+		// 	.post(`users/`, {
+		// 		name: this.state.Name,  
+        //         password: this.state.Password,  
+        //         email: this.state.Email,  
+        //         mob_number: this.state.Mob_no,  
+        //         re_password: this.state.Re_password
+		// 	})
+		// 	.then((res) => {
+		// 		//history.push('/login');
+		// 		console.log(res);
+		// 		console.log(res.data)
+		// 	}).catch(function (err){
+        //         console.log(err)
+        //     });
+            
+
+        axios.post('http://localhost:8000/auth/users/',{
             name: this.state.Name,  
             password: this.state.Password,  
             email: this.state.Email,  
             mob_number: this.state.Mob_no,  
-            re_password: this.state.Re_password  
-          })  
-        }).then((Response) => Response.json())  
-          .then((Result) => {  
-            if (Result.Status == 'Success')  
-                    // this.props.history.push("/Dashboard"); 
-                alert(' User Created!!!!!') 
-                 
-            else  
-              alert('Sorrrrrry !!!! Un-authenticated User !!!!!')  
-          })  
+            re_password: this.state.Re_password
+        })
+        .then(function (res){
+            console.log(res.data)
+            // localStorage.setItem('token', res.data.access);
+            localStorage.setItem('user', res.config.data);
+            console.log(localStorage.getItem('user'));
+        }).catch(function (err){
+            console.log(err)
+        })
+        
     }  
     
     render() {
