@@ -1,44 +1,43 @@
-import React, { useRef, useEffect } from 'react';
-import { useLocation, Switch } from 'react-router-dom';
-import AppRoute from './utils/AppRoute';
-import ScrollReveal from './utils/ScrollReveal';
-import ReactGA from 'react-ga';
+import './App.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import signup from './components/signup';
+import Login from './components/login';
+import home from './components/home';
+import PrivateRoute from './utils/PrivateRoute'
+import { AuthProvider } from './context/AuthContext'
 
-// Layouts
-import LayoutDefault from './layouts/LayoutDefault';
-
-// Views 
-import Home from './views/Home';
-
-// Initialize Google Analytics
-ReactGA.initialize(process.env.REACT_APP_GA_CODE);
-
-const trackPage = page => {
-  ReactGA.set({ page });
-  ReactGA.pageview(page);
-};
-
-const App = () => {
-
-  const childRef = useRef();
-  let location = useLocation();
-
-  useEffect(() => {
-    const page = location.pathname;
-    document.body.classList.add('is-loaded')
-    childRef.current.init();
-    trackPage(page);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
-
+function App() {
   return (
-    <ScrollReveal
-      ref={childRef}
-      children={() => (
-        <Switch>
-          <AppRoute exact path="/" component={Home} layout={LayoutDefault} />
-        </Switch>
-      )} />
+    <div className="App">
+      <Router>    
+      <nav className="navbar navbar-expand-lg navheader">    
+            <div className="collapse navbar-collapse" >    
+              <ul className="navbar-nav mr-auto">    
+                <li className="nav-item">    
+                  <Link to={'/login'} className="nav-link">Login</Link>    
+                </li>    
+                <li className="nav-item">    
+                  <Link to={'/signup'} className="nav-link">Sign Up</Link>    
+                </li>    
+                
+              </ul>    
+            </div>    
+          </nav> <br /> 
+      <AuthProvider>
+        <div className="container">    
+          
+
+          
+            {/* <Route exact path='/Login' component={Login} />     */}
+            <Route path='/' component={home} />
+            <Route path='/signup' component={signup} />  
+            <Route path='/login' component={Login} />    
+          
+        </div>              
+        </AuthProvider>     
+      </Router>   
+    </div>
   );
 }
 
