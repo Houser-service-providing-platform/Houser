@@ -4,3 +4,5 @@ from .views import get_available_service_providers
 urlpatterns = [
     path(r'^service/$', get_available_service_providers, name='urlname'),
 ]
+#mumble - notification
+request.query_prams
