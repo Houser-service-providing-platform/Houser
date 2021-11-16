@@ -96,12 +96,14 @@
 // export default login
 
 import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 
 function Login() {
     let {loginUser} = useContext(AuthContext)
     return (
             <div className="row">
+            
                 <div className="col col-md-4 mx-auto px-4 border border-secondary rounded">
                     <form className="" onSubmit={loginUser}>
                         <h2 className="my-4 text-success"><u>Login</u></h2>

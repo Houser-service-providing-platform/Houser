@@ -1,12 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import portfolio_img from '../img/home-portfolio/img_1.jpg';
 import about_img from '../img/about_img.jpg';
 import slider_img from '../img/slider/image_2.jpg';
+import { Link } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 
-function home() {
+function Home() {
+
+    const {logoutUser} = useContext(AuthContext)
     return (
         <div>
             <div class="cover"></div>
+
+            <nav className="navbar navbar-expand-lg navheader">    
+            <div className="collapse navbar-collapse" >    
+              <ul className="navbar-nav mr-auto">   
+              <li className="nav-item">    
+                  <Link to={'/login'} className="nav-link">Login</Link>    
+                </li>    
+                <li className="nav-item">    
+                  <Link to={'/signup'} className="nav-link">Sign Up</Link>    
+                </li>  
+                <li>
+                  <button onClick={logoutUser}> logout </button>
+                </li>
+                
+              </ul>    
+            </div>    
+          </nav> <br /> 
 
             <div class="header">
                 <div class="container">
@@ -443,4 +464,4 @@ function home() {
     )
 }
 
-export default home
+export default Home

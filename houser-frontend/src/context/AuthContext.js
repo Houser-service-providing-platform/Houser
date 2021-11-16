@@ -8,15 +8,15 @@ export default AuthContext;
 
 
 export const AuthProvider = ({children}) => {
-    let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
-    let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
+    let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? (localStorage.getItem('authTokens')) : null)
+    let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? (localStorage.getItem('authTokens')) : null)
     let [loading, setLoading] = useState(true)
 
     const history = useHistory()
 
     let loginUser = async (e )=> {
         e.preventDefault()
-        let response = await fetch('http://localhost:8000/auth/jwt/create/', {
+        let response = await fetch('http://localhost:8000/auth/login/', {
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -26,22 +26,47 @@ export const AuthProvider = ({children}) => {
         let data = await response.json()
 
         if(response.status === 200){
-            setAuthTokens(data)
-            setUser(jwt_decode(data.access))
-            localStorage.setItem('authTokens', JSON.stringify(data))
+            console.log(data[0]);
+            // setAuthTokens(data)
+            // setUser(jwt_decode(data))
+            setAuthTokens(data[0])
+            setUser(data[0])
+            
+            // localStorage.setItem('authTokens', JSON.stringify(data))
+            localStorage.setItem('authTokens', data[0])
             history.push('/')
-        }else{
+        }
+        else{
             alert('Something went wrong!')
         }
     }
 
 
-    let logoutUser = () => {
-        setAuthTokens(null)
-        setUser(null)
-        localStorage.removeItem('authTokens')
-        history.push('/login')
+    let logoutUser = async() => {
+
+          let response = await fetch('http://localhost:8000/auth/logout/', {
+              method:'POST',
+              headers:{
+                  'Content-Type':'application/json'
+              },
+              body:JSON.stringify({'authtoken':localStorage.authTokens})
+          })
+          let data = await response.json()
+      
+          if(response.status === 200){
+              setAuthTokens(null)
+              setUser(null)
+              console.log('logged out');
+              localStorage.removeItem('authTokens')
+              history.push('/login')
+          }
+          else{
+              alert('Something went wrong!')
+          }
+      
     }
+
+    
 
 
     // let updateToken = async ()=> {
@@ -82,7 +107,7 @@ export const AuthProvider = ({children}) => {
     useEffect(()=> {
 
         if(authTokens){
-            setUser(jwt_decode(authTokens.access))
+            setUser(authTokens)
         }
         setLoading(false)
 
