@@ -23,11 +23,11 @@ function App() {
        <div className="App">
         <AuthProvider>
           <Switch>
-            <Route path='/'> <Home /> </Route>
-            <Route path='/service'> <Service /> </Route>
-            <Route path='login/' component={Login} /> 
-            <Route path='/signup'> <signup /> </Route>   
-            <Route path='/verify-otp'> <VerifyOtp /> </Route>
+            <Route exact path='/'> <Home /> </Route>
+            <PrivateRoute exact path='/service'> <Service /> </PrivateRoute>
+            <Route exact path='login/' component={Login} /> 
+            <Route exact path='/signup'> <signup /> </Route>   
+            <Route exact path='/verify-otp'> <VerifyOtp /> </Route>
           </Switch>
                    
         </AuthProvider>     
